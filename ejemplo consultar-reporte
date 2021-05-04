@@ -1,0 +1,14 @@
+<tarea nombre="Consulta Solicitud de Diagnóstico" >
+    <pagina nombre="Consulta Solicitud de Diagnóstico" id="1">
+    
+   <nivel nombre="Reporte" id="reporte" mostrarNivelAnterior="false" mostrarProximoNivel="false">
+        <componente tipo="reporte" nombre="Reporte" id="reporte">
+            <reporte nombre="solicitud_diagnostico">
+                <campo name="folio_anio" type="long" calc="$inParam.folio_anio$"/>
+                <campo name="folio" type="long" calc="$inParam.folio$"/>
+            </reporte>
+        </componente>
+    </nivel>
+</pagina>
+
+</tarea>
