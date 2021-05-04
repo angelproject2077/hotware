@@ -1,0 +1,13 @@
+<tarea nombre="catalogoDirecciones">
+    <pagina nombre="catalogoDirecciones" id="p1">
+        <nivel nombre="catalogoDirecciones" id="c1" mostrarProximoNivel="false">
+            <componente tipo="tabla" nombre="catalogoDirecciones" id="c1">
+                <tabla schema="catalog" nombre="direcciones">
+                    <campo name="id_direccion" text="ID" columnas="3" margen-izquierdo="2" width="50" autogenerado="true" generacion="@prox()+1"/>
+                    <campo name="siglas" text="SIGLAS" columnas="3" margen-derecho="2" width="100" validacion="%siglas%==null" validacionMensaje="Debe de Colocar las Siglas de la Dirección"/>
+                    <campo name="nombre_direccion" text="DIRECCION" width="500" columnas="6" margen-izquierdo="2" margen-derecho="2" validacion="%nombre_direccion%==null" validacionMensaje="Debe de Colocar el Nombre de la Dirección"/>
+                </tabla>
+            </componente>
+        </nivel>
+    </pagina>
+</tarea>
