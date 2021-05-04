@@ -1,0 +1,89 @@
+<tarea nombre="Usuarios del Sistema">
+    <pagina id="1">
+        
+        <nivel nombre="Usuarios del Sistema" id="nivelUsuario" mostrarNivelAnterior="false" mostrarProximoNivel="false">  
+            <componente tipo="formulario" nombre="Usuarios del Sistema" id="Usuariocomponente" mostrarNivelAnterior="false" mostrarProximoNivel="false">
+                <tabla schema="entity" nombre="usuarios">  
+                    <campo name="id_usuario" text="Id Usuario" columnas="3" calc="'AGN.'" margen-izquierdo="2" validacion="%id_usuario%==null" validacionMensaje="Debe de Ingresar el Id de Usuario" habilitado="true"/>
+                    <campo name="valida_usuario" visible="false" calcCliente="@consultaDirec('SELECT COUNT(*) &gt; 0 AS RESULTADO FROM ENTITY.USUARIOS WHERE ID_USUARIO='+'\\''+%id_usuario%+'\\'','resultado','string',$protocolarios.enterprise$)" local="true" type="string" validacion="%valida_usuario%=='true'" validacionMensaje="El nombre de Usuario que quieres registrar ya existe, favor de escoger otro"/>
+                    <campo name="nombre" text="Nombre" columnas="3" margen-derecho="2" validacion="%nombre%==null" validacionMensaje="Debe de Ingresar El Nombre del Usuario"/>
+                    <campo name="apellido_paterno" text="Primer Apellido" columnas="3" margen-izquierdo="2" validacion="%apellido_paterno%==null" validacionMensaje="Debe de Ingresar el Primer Apellido del Usuario"/>
+                    <campo name="apellido_materno" text="Segundo Apellido" columnas="3" margen-derecho="2"/>
+                    <campo name="correo_electronico" text="Correo Electrónico" columnas="3" margen-izquierdo="2" validacion="%correo_electronico%==null OR (@matchRegEx(%correo_electronico%,'[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})')==false)" validacionMensaje="Debe de ingresar el correo electrónico o colocar un correo electrónico válido"/>
+                    <campo name="direccion" text="Dirección" columnas="3" margen-derecho="2" validacion="%direccion%==null" validacionMensaje="Debe de Ingresar la Dirección del Usuario a Registrar"/>
+                    <campo name="area" text="Área" columnas="3" margen-izquierdo="2" validacion="%area%==null" validacionMensaje="Debe de Ingresar el Área del Usuario a Registrar"/>
+                    <campo name="departamento" text="Departamento" columnas="3" margen-derecho="2" validacion="%departamento%==null" validacionMensaje="Debe de Ingresar el Departamento del Usuario a Registrar"/>
+                    <campo name="contrasena" text="Contraseña" columnas="3" margen-izquierdo="2" ocultarCaptura="true" local="true" type="string" validacion="%contrasena%==null" validacionMensaje="Debe de Ingresar la Contraseña del Usuario a Registrar"/>
+                    <campo name="r_contrasena" text="Repite Contraseña" columnas="3" margen-derecho="2" ocultarCaptura="true" local="true" type="string" validacion="%r_contrasena%==null" validacionMensaje="Debe de Ingresar la Repetición de la Contraseña a Ingresar"/>
+                    <campo name="val_r_contrasena" local="true" type="string" calcCliente="@ifThenElse(%contrasena%!=%r_contrasena%,'FALSE','TRUE')" validacion="%val_r_contrasena%=='FALSE'" validacionMensaje="La contraseña debe de coincidir" visible="false"/>
+                </tabla>
+                  <estilos>
+                    <boton nombre="grabar" texto="Guarda Usuario en la Plataforma" columnas="4" margen-izquierdo="2"/>
+                </estilos>
+                <acciones>
+                    <accion nombre="grabar" hacer="saltar siguiente nivel"/>
+                </acciones>
+            </componente>
+        </nivel>
+        
+        
+        <nivel nombre="Rol del Sistema" id="nivelRol" mostrarNivelAnterior="false" mostrarProximoNivel="false">  
+            <componente tipo="tabla" nombre="Rol del Sistema" id="componenterol">
+                <tabla schema="entity" nombre="usuario_rol">  
+                    <campo name="id_user" text="Id Usuario" columnas="3" margen-izquierdo="2" calc="%nivelUsuario.Usuariocomponente.id_usuario%" llaveForanea="false" filtroCampo="id_user" filtroOperador="=" filtroValor="%nivelUsuario.Usuariocomponente.id_usuario%"/>
+                    <campo name="id_rol" text="Id Rol" columnas="3" margen-derecho="2" autogenerado="true" generacion="@prox()+1" columna-visible="false"/>
+                    <campo name="uuid_proceso" text="Id proceso" columnas="3" margen-izquierdo="2" width="500"/>
+                    <campo name="uuid_rol" text="Id Rol" columnas="3" margen-derecho="2" width="500"/>
+                </tabla>
+             
+                   <estilos>
+                    <boton nombre="grabar" texto="Guarda Roles del Usuario en la Plataforma" columnas="4" margen-izquierdo="2"/>
+                </estilos>
+                <acciones>
+                    <accion nombre="grabar" hacer="saltar siguiente nivel"/>
+                </acciones>
+            </componente>
+        </nivel>
+        
+        <nivel id="inyectaDatosAlaPlataformaUsuario" nombre="Inyecta los Datos de Usuarios a la Plataforma" interactivo="false">
+            <componente id="inyectaDatosAlaPlataformaUsuario" nombre="Inyecta los Datos de Usuarios a la Plataforma" tipo="solicitud">
+                <parametros url="$config.request$" metodo="POST" accion="addUser" tipo="json"> <!-- http://54.212.248.221:8090/v1.0/-->
+                    <parametro name="idUser" calc="%nivelUsuario.Usuariocomponente.id_usuario%"/>
+                    <parametro name="nombre" calc="@concatenar(%nivelUsuario.Usuariocomponente.nombre%,' ',%nivelUsuario.Usuariocomponente.apellido_paterno%,' ', %nivelUsuario.Usuariocomponente.apellido_materno%)"/>
+                    <parametro name="contrasena" calc="%nivelUsuario.Usuariocomponente.contrasena%"/>
+                    <parametro name="tipo" calc="'oper'"/>
+                    <parametro name="roles" calc="'6'"/>
+                    <parametro name="correo" calc="%nivelUsuario.Usuariocomponente.correo_electronico%"/>
+                    <parametro name="urlMenu" calc="''"/>
+                </parametros>
+            </componente>
+        </nivel>
+        
+        <nivel nombre="AgregaRolesAUsuario" id="AgregaRolesAUsuario" interactivo="false">
+            <componente tipo="cursor" nombre="AgregaRolesAUsuario" id="AgregaRolesAUsuario">
+                <tabla schema="entity" nombre="usuario_rol">
+                    <campo name="id_user" filtroCampo="id_user" filtroOperador="=" filtroValor="%nivelUsuario.Usuariocomponente.id_usuario%"/>
+                    <campo name="id_rol"/>
+                    <campo name="uuid_proceso"/>
+                    <campo name="uuid_rol"/>
+                </tabla>
+                <nivel nombre="Enlace Dynamo Rol" id="EnlaceDynamoRolExamenVocacional" interactivo="false">
+                    <componente tipo="solicitud" nombre="Enlace con dynamo" id="EnlaceDynamoRolExamenVocacional">
+                         <parametros url="$config.request$" metodo="POST" accion="agregarRolAUsuario" tipo="json">
+                              <parametro name="enterprise" calc="$protocolarios.enterprise$"/>
+                              <parametro name="process" calc="%AgregaRolesAUsuario.AgregaRolesAUsuario.uuid_proceso%"/>
+                              <parametro name="version" calc="1"/>
+                              <parametro name="user" calc="%AgregaRolesAUsuario.AgregaRolesAUsuario.id_user%"/>
+                              <parametro name="RoleId" calc="%AgregaRolesAUsuario.AgregaRolesAUsuario.uuid_rol%"/>
+                        </parametros>
+                    </componente>
+                </nivel>
+            </componente>
+        </nivel>
+        
+        
+    </pagina>
+    
+    
+    
+</tarea>
