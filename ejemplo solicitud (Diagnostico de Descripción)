@@ -1,0 +1,101 @@
+<tarea nombre="Diagnóstico de Descripción" >
+    <pagina nombre="Diagnostico de Descripción" id="1">
+        
+        
+    <nivel nombre="buscaUsuario" id="buscaUsuario" interactivo="false">
+        <componente tipo="cursor" nombre="buscaUsuario" id="buscaUsuario">
+            <tabla schema="entity" nombre="usuarios">
+                <campo name="id_usuario" filtroCampo="id_usuario" filtroOperador="=" filtroValor="$protocolarios.user$"/>
+                <campo name="direccion"/>
+                <campo name="area"/>
+                <campo name="departamento"/>
+            </tabla>
+        </componente>
+    </nivel>    
+    
+    <nivel nombre="Diagnóstico de Descripción" id="niveldiagnostico" mostrarNivelAnterior="false" mostrarProximoNivel="false">
+        <componente tipo="formulario" nombre="Diagnóstico de Descripción" id="componentediagnostico">
+            <tabla schema="operation" nombre="diagnostico_descripcion_fondos_colecciones">   
+                
+                <!-- Campo a ordernar -->
+                <campo name="folio_anio" text="Folio Año" columnas="10" calc="@fechaSistema(&quot;YYYY&quot;)" visible="false"/>
+                
+                
+                <campo name="folio" text="Folio" columnas="5"  autogenerado="true" generacion="@prox()+1" />
+                <campo name="fecha_elaboracion" text="Fecha elaboración" columnas="5" calc="@fechaSistema(&quot;YYYY/MM/dd HH:mm:ss&quot;)" habilitado="false"/>
+                
+                <campo name="fondo_serie_coleccion" text="Nombre del fondo, sección o serie o colección" columnas="3" validacion="%fondo_serie_coleccion%==null" validacionMensaje="Favor de escribir el campo 'Nombre del fondo, sección o serie o colección'"/>
+                <campo name="clasificacion_archivistica" text="Clasificación archivística" columnas="2"/>
+                <campo name="historia_institucional" text="Historia institucional" columnas="2"/>
+                <campo name="productor" text="Productor" columnas="3"/>
+                
+                <campo name="datos_ingreso_agn" text="Datos ingreso al AGN" columnas="3"/>
+                <campo name="cuenta_descripciones_previas" text="Cuenta con descripciones previas" columnas="2"/> <!-- validacion="%cuenta_descripciones_previas%==null" validacionMensaje="Favor de escribir el campo 'Cuenta con descripciones previas'"-->
+                <campo name="nivel_descripcion" text="Nivel de descripción" columnas="2" validacion="%nivel_descripcion%==null" validacionMensaje="Favor de escribir el campo 'Nivel de descripción'"/>
+                <campo name="instrumentos_descripcion" text="Instrumentos de descripción" columnas="3"/>
+                
+                <campo name="total_unidades_instalacion" text="Total de unidades de instalación" columnas="2" validacion="%total_unidades_instalacion%==null" validacionMensaje="Favor de escribir el campo 'Total de unidades de instalación'"/>
+                <campo name="unidades_instalacion_descritas" text="Unidades de instalación descritas" columnas="3" validacion="%unidades_instalacion_descritas%==null" validacionMensaje="Favor de escribir el campo 'Unidades de instalación descritas'"/>
+                <campo name="unidades_instalacion_sin_describir" text="Unidades instalación sin describir" columnas="3" validacion="%unidades_instalacion_sin_describir%==null" validacionMensaje="Favor de escribir el campo 'Unidades instalación sin describir'"/>
+                <campo name="porcentaje_descripcion" text="Porcentaje de descripción" columnas="2" validacion="%porcentaje_descripcion%==null" validacionMensaje="Favor de escribir el campo 'Porcentaje de descripción'"/>
+                
+                
+                <campo name="total_unidades_documentales" text="Total de Unidades Documentales" columnas="2" validacion="%total_unidades_documentales%==null" validacionMensaje="Favor de escribir el campo Total de unidades Documentales"/>
+                <campo name="unidades_documentales" text="Unidades Documentales" columnas="3" validacion="%unidades_documentales%==null" validacionMensaje="Favor de escribir el campo Unidades Documentales"/>
+                <campo name="unidades_documentales_sin_describir" text="Unidades Documentales sin describir" columnas="3" validacion="%unidades_instalacion_sin_describir%==null" validacionMensaje="Favor de escribir el campo Unidades Documentales sin Describir"/>
+                <campo name="porcentaje_descripcion_unidades_doc" text="Porcentaje de descripción" columnas="2" validacion="%porcentaje_descripcion_unidades_doc%==null" validacionMensaje="Favor de escribir el campo Porcentaje Descripción Unidades Documentales"/>
+                
+                
+                <campo name="realizador_diagnostico" text="Realizador diagnóstico" columnas="2" calc="$protocolarios.user$" descripcionForanea="nombre,apellido_paterno,apellido_materno"/>
+                <campo name="realizador_diagnostico_localDIR" text="Clave Dirección" columnas="2" local="true" type="string" referenciaForanea="realizador_diagnostico" celdaForanea="direccion"  autocompletar="true" visible="false"/>
+                 <campo name="realizador_diagnostico_localAREA" text="Clave Dirección" columnas="2" local="true" type="string" referenciaForanea="realizador_diagnostico" celdaForanea="area"  autocompletar="true" visible="false"/>
+                 <campo name="realizador_diagnostico_localDEP" text="Clave Dirección" columnas="2" local="true" type="string" referenciaForanea="realizador_diagnostico" celdaForanea="departamento"  autocompletar="true" visible="false"/>
+                
+                <campo name="direccion_local" text="Dirección" columnas="3" local="true" type="string" calc="@consultaDirec('select nombre_direccion as resultado from catalog.direcciones where id_direccion='+'\\''+%buscaUsuario.buscaUsuario.direccion%+'\\'','resultado','string',$protocolarios.enterprise$)" habilitado="false"/>
+                
+                <campo name="area_local" text="Área" columnas="3" local="true" type="string" calc="@consultaDirec('select nombre_area as resultado from catalog.areas where id_area='+'\\''+%buscaUsuario.buscaUsuario.area%+'\\'','resultado','string',$protocolarios.enterprise$)" habilitado="false"/>
+                
+                <campo name="departamento_local" text="Departamento" columnas="2" local="true" type="string" calc="@consultaDirec('select nombre_departamento as resultado from catalog.departamentos where id_departamento='+'\\''+%buscaUsuario.buscaUsuario.departamento%+'\\'','resultado','string',$protocolarios.enterprise$)" habilitado="false"/>
+                
+                <campo name="observaciones" text="Observaciones" columnas="6" margen-izquierdo="2" margen-derecho="2"/>
+                <campo name="estatus_documento" text="Estatus del documento" columnas="3" calc="4" visible="false"/>
+            
+
+             
+     
+            </tabla>
+            <estilos>
+                <boton nombre="grabar" texto="Guardar" columnas="4" margen-izquierdo="3" margen-derecho="3"/>
+            </estilos>
+            <acciones>
+                <accion nombre="grabar" hacer="saltar siguiente nivel"/>
+            </acciones>
+        </componente>
+    </nivel>
+    <nivel nombre="crearNuevaInstancia" id="cI" interactivo="false">
+        <componente tipo="solicitud" nombre="" id="cI">
+            <parametros url="$config.request$" metodo="POST" accion="crearNuevaInstancia" tipo="json">
+                <parametro name="enterprise" calc="$protocolarios.enterprise$"/>
+                <parametro name="process" calc="'3e5b9d76-c6f7-48ec-a661-4061e2bf2200'"/>
+                <parametro name="user" calc="$protocolarios.user$"/>
+                <parametro name="out_folio" calc="%niveldiagnostico.componentediagnostico.folio%" mostrarEsc="true" mostrarMonitor="true" text="Folio:"/>
+                <parametro name="out_folio_anio" calc="%niveldiagnostico.componentediagnostico.folio_anio%" mostrarEsc="true" mostrarMonitor="true" text="Año:"/>
+                <parametro name="out_fecha_elaboracion" calc="%niveldiagnostico.componentediagnostico.fecha_elaboracion%" mostrarEsc="true" mostrarMonitor="true" text="Fecha de Elaboración:"/>
+                <parametro name="out_clasificacion_archivistica" calc="%niveldiagnostico.componentediagnostico.clasificacion_archivistica%" mostrarEsc="true" mostrarMonitor="true" text="Clasificación Archivistica:"/>
+                <parametro name="out_instrumentos_descripcion" calc="%niveldiagnostico.componentediagnostico.instrumentos_descripcion%" mostrarEsc="true" mostrarMonitor="true" text="Instrumento de Descripción:"/>
+                
+                
+            </parametros>
+        </componente>
+    </nivel>
+    <nivel nombre="Reporte" id="reporte" mostrarNivelAnterior="false" mostrarProximoNivel="false">
+        <componente tipo="reporte" nombre="Reporte" id="reporte">
+            <reporte nombre="diagnostico_fo_co">
+                <campo name="folio_anio" type="long" calc="%niveldiagnostico.componentediagnostico.folio_anio%"/>
+                <campo name="folio" type="long" calc="%niveldiagnostico.componentediagnostico.folio%"/>
+            </reporte>
+        </componente>
+    </nivel>
+</pagina>
+
+</tarea>
