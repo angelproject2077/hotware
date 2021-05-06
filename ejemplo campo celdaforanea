@@ -1,0 +1,1 @@
+<campo name="correo_electronico_responsable" text="Correo electronico del responsable" local="true" type="string" columnas="10" celdaForanea="correo_electronico" referenciaForanea="nombre_responsable" autocompletar="true" habilitado="true"/>
