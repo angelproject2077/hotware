@@ -1,0 +1,26 @@
+[10/5 10:50 a. m.] Pablo Nájera Hotware: --  codigo para elimnar todas las instancias de un proyecto
+DELETE FROM period_2015.instance_filters WHERE id_enterprise = 'XXXXXX';
+DELETE FROM period_2015.instance_data WHERE id_enterprise = 'XXXXXX';
+DELETE FROM period_2015.history_threads WHERE id_enterprise = 'XXXXXX';
+DELETE FROM period_2015.threads WHERE id_enterprise = 'XXXXXX';
+DELETE FROM period_2015.instance_messages WHERE id_enterprise = 'XXXXXX';
+DELETE FROM period_2015.instances WHERE id_enterprise = 'XXXXXX';
+DELETE FROM period_2015.user_subscribed_to_process WHERE id_enterprise = 'XXXXXX';
+[10/5 10:52 a. m.] Pablo Nájera Hotware: delete FROM period_2015.instance_data WHERE id_enterprise = 'XXXXXX'
+and id_process='73673447-289c-42d0-9a67-5f6939bfbc48' and id_instance='6';
+
+delete FROM period_2015.threads WHERE id_enterprise = 'XXXXXX'
+and id_process='73673447-289c-42d0-9a67-5f6939bfbc48' and id_instance='6';
+
+delete FROM period_2015.history_threads WHERE id_enterprise = 'XXXXXX'
+and id_process='73673447-289c-42d0-9a67-5f6939bfbc48' and id_instance='6';
+
+delete from period_2015.instances WHERE id_enterprise='XXXXXX'
+and id_process='73673447-289c-42d0-9a67-5f6939bfbc48' and id_instance='6';
+[10/5 10:53 a. m.] Pablo Nájera Hotware: delete from common.actors where id_enterprise='XXXXXX' and id_users='xxxxx';
+delete from period_2015.threads where id_users='xxxxx';
+delete from period_2015.history_threads where id_users='xxxxx';
+delete from common.projects where id_users='xxxxx';
+delete from common.user_events where id_users='xxxxx';
+delete from common.users_system_roles where id_users='xxxxx';
+delete from common.users where id_users='xxxxx';
